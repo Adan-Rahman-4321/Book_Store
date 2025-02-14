@@ -1,0 +1,57 @@
+﻿@model List<Website.Models.Order>
+@{
+    ViewData["Title"] = "Orders";
+}
+<h1>Orders</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Ordered By</th>
+            <th>Items</th>
+            <th>Placed Date</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => order.Id)</td>
+                <td>
+                    <strong>Name:</strong> @order.FullName <br />
+                    <strong>Email:</strong> @order.Email <br />
+                    <strong>Phone:</strong> @order.PhoneNo <br />
+                    <strong>Address:</strong> @order.CurrentAddress <br />
+                </td>
+                <td>
+                    @foreach (var item in order.OrderItems)
+                    {
+                        <strong>Book:</strong> @item.Book.Title <br />
+                        <strong>Quantity:</strong> @item.Quantity <br />
+                        <strong>Price:</strong> @item.Price <br />
+                        <strong>Total:</strong> @(item.Quantity * item.Price) <br />
+                    }
+                </td>
+                <td>@Html.DisplayFor(modelItem => order.OrderPlaced)</td>
+                <td>@Html.DisplayFor(modelItem => order.OrderTotal)</td>
+                <td>@Html.DisplayFor(modelItem => order.Status)</td>
+                <td>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-sm btn-secondary dropdown-toggle " data-bs-toggle="dropdown">
+                            Change Status
+                        </button>
+                        <ul class="dropdown-menu ">
+                            @foreach (OrderStatus status in Enum.GetValues(typeof(OrderStatus)))
+                            {
+                                <li><a class="dropdown-item" href="@Url.Action("UpdateStatus", "Order", new { id = order.Id, status = status })">@status</a></li>
+                            }
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

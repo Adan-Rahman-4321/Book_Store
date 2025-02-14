@@ -1,0 +1,211 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Bookeefy</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Website.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <header class="fixed-top">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+            <div class="container">
+                <a class="navbar-brand fw-bold" asp-controller="Store" asp-action="Index">
+                    Book<span class="text-warning">eefy</span>
+                </a>
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                
+                <div class="navbar-collapse collapse">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Store" asp-action="Index">
+                                <i class="fas fa-home me-1"></i>Home
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Store" asp-action="About">
+                                <i class="fas fa-info-circle me-1"></i>About
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Store" asp-action="Contact">
+                                <i class="fas fa-envelope me-1"></i>Contact
+                            </a>
+                        </li>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" data-bs-toggle="dropdown">
+                                    <i class="fas fa-user-shield me-1"></i>Admin
+                                </a>
+                                <ul class="dropdown-menu animate slideIn" aria-labelledby="adminDropdown">
+                                    <li><a class="dropdown-item" asp-controller="Book" asp-action="Index">
+                                        <i class="fas fa-list me-2"></i>Books List</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Book" asp-action="Create">
+                                        <i class="fas fa-plus-circle me-2"></i>Add Book</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" asp-controller="Admin" asp-action="ListAllRoles">
+                                        <i class="fas fa-user-cog me-2"></i>Roles</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Admin" asp-action="UsersList">
+                                        <i class="fas fa-users me-2"></i>Users</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Order" asp-action="OrdersList">
+                                        <i class="fas fa-shopping-basket me-2"></i>Orders</a></li>
+                                </ul>
+                            </li>
+                        }
+                    </ul>
+                    
+                    <div class="d-flex align-items-center">
+                        <partial name="_LoginPartial" />
+                        <div class="nav-item dropdown ms-3">
+                            <a class="nav-link dropdown-toggle position-relative" href="#" id="cartDropdown" data-bs-toggle="dropdown">
+                                <i class="fas fa-shopping-cart fs-5"></i>
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    0
+                                </span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end animate slideIn" aria-labelledby="cartDropdown">
+                                <li><a class="dropdown-item" asp-controller="Cart" asp-action="Index">
+                                    <i class="fas fa-shopping-cart me-2"></i>View Cart</a></li>
+                                <li><a class="dropdown-item" asp-controller="Order" asp-action="MyOrdersHistory">
+                                    <i class="fas fa-history me-2"></i>Order History</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="content-wrapper flex-grow-1 pt-5 mt-4">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="bg-primary text-white mt-auto">
+        <div class="container py-4">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <h5 class="fw-bold mb-3">About Bookeefy</h5>
+                    <p class="mb-0">Your one-stop destination for all your reading needs. Discover millions of eBooks, audiobooks, and more.</p>
+                </div>
+                <div class="col-lg-4">
+                    <h5 class="fw-bold mb-3">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a class="text-white text-decoration-none" asp-controller="Store" asp-action="About">About Us</a></li>
+                        <li><a class="text-white text-decoration-none" asp-controller="Store" asp-action="Contact">Contact Us</a></li>
+                        <li><a class="text-white text-decoration-none" href="#">Privacy Policy</a></li>
+                        <li><a class="text-white text-decoration-none" href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h5 class="fw-bold mb-3">Connect With Us</h5>
+                    <div class="d-flex gap-3">
+                        <a href="#" class="text-white fs-5"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-white fs-5"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-white fs-5"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-white fs-5"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="py-3 text-center border-top border-white border-opacity-25">
+            <p class="mb-0">&copy; @DateTime.Now.Year Bookeefy. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/88321070e2.js" crossorigin="anonymous"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.0.19/sweetalert2.all.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+<style>
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+.navbar {
+    transition: all 0.3s ease;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    letter-spacing: -0.5px;
+}
+
+.nav-link {
+    position: relative;
+    padding: 0.5rem 1rem;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background-color: #fff;
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.nav-link:hover::after {
+    width: 80%;
+}
+
+.dropdown-menu {
+    border: none;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.dropdown-item {
+    padding: 0.7rem 1.5rem;
+    transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+    padding-left: 1.75rem;
+}
+
+.animate {
+    animation-duration: 0.3s;
+    animation-fill-mode: both;
+}
+
+@@keyframes slideIn {
+    0% {
+        transform: translateY(1rem);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0rem);
+        opacity: 1;
+    }
+}
+
+.slideIn {
+    animation-name: slideIn;
+}
+
+footer {
+    background: blue;
+}
+
+.content-wrapper {
+    min-height: calc(100vh - 60px - 300px);
+}
+</style>

@@ -1,0 +1,71 @@
+﻿@model Website.Models.Cart
+
+<h1>Cart</h1>
+
+
+@if(Model.CartItems.Count > 0)
+{
+	<table class="table">
+		<thead>
+			<tr>
+				<th></th>
+				<th>Book</th>
+				<th>Price</th>
+				<th>Quantity</th>
+				<th>Remove</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach(var item in Model.CartItems)
+			{
+				var bookTotal = item.Book.Price * item.Quantity;
+				<tr>
+					<td>
+						<p asp-controller="Store" asp-action="Details" asp-route-id="@item.Id"><img src="@item.Book.ImgUrl" style="height:4em;" /></p>
+					</td>
+					<td>
+						<p asp-controller="Store" asp-action="Details" asp-route-id="@item.Id">@item.Book.Title</p>
+					</td>
+					<td>
+						@bookTotal.ToString("c");
+					</td>
+					<td>
+						<a asp-controller="Cart" asp-action="ReduceQuantity" asp-route-id="@item.Book.Id"><small><i class="fa-solid fa-minus"></i></small></a> |
+						<span class="badge badge-success">@item.Quantity</span> |
+						<a asp-controller="Cart" asp-action="IncreaseQuantity" asp-route-id="@item.Book.Id"><small><i class="fa-solid fa-plus"></i></small></a>
+					</td>
+					<td>
+						<a asp-controller="Cart" asp-action="RemoveFromCart" asp-route-id="@item.Book.Id" class="text-danger btn btn-sm"><i class="fa-solid fa-x"></i></a>
+					</td>
+				</tr>
+			}
+		</tbody>
+		<tfoot>
+			<td>
+
+			</td>
+			<td class="text-end">
+				<strong>Total</strong>
+			</td>
+			<td>
+				<strong>@Model?.GetCartTotal().ToString("c")</strong>
+			</td>
+			<td>
+
+			</td>
+			<td>
+
+			</td>
+		</tfoot>
+	</table>
+
+	<a asp-controller="Order" asp-action="Checkout"><div class="btn btn-success float-end"><i class="fa-solid fa-angles-right"></i> Checkout</div></a>
+	<a asp-controller="Cart" asp-action="ClearCart"><div class="btn btn-danger float-end me-1"><i class="fa-solid fa-trash"></i> Clear Cart</div></a>
+}
+else
+{
+	<h3 class="text-center">Oops! Cart is Empty</h3>
+	<div class="container mt-5 mb-5" >
+	<h4>Please return to store to place order by clicking <a asp-controller="Store" asp-action="Index">Here</a>  </h4>
+	</div>
+}

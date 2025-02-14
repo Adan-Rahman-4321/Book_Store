@@ -1,0 +1,163 @@
+﻿@model IEnumerable<Website.Models.Book>
+@{
+    ViewData["Title"] = "Welcome to BookStore";
+}
+
+<!-- Hero Section -->
+<div class="hero-section position-relative mb-5">
+    <div class="hero-content container py-5">
+        <div class="row align-items-center min-vh-75">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold text-primary mb-3">Discover Your Next Favorite Book</h1>
+                <p class="lead mb-4">Explore our vast collection of books across all genres. From bestsellers to rare finds, we have something for every reader.</p>
+                <form asp-action="Index" class="search-form">
+                    <div class="input-group">
+                        <input type="text" name="searchString" class="form-control form-control-lg" placeholder="Search by Title or Author" />
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa-solid fa-magnifying-glass me-2"></i>Search
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-lg-6 d-none d-lg-block">
+                <img src="./images/hero.png" alt="Books Collection" class="img-fluid rounded-3 shadow-lg">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Featured Categories -->
+<section class="featured-categories container mb-5">
+    <h2 class="text-center mb-4">Browse Categories</h2>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="category-card shadow-sm rounded-3 p-4 text-center hover-lift">
+                <i class="fa-solid fa-book-open fa-3x text-primary mb-3"></i>
+                <h3 class="h5">Fiction</h3>
+                <p class="text-muted">Explore imaginative worlds</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="category-card shadow-sm rounded-3 p-4 text-center hover-lift">
+                <i class="fa-solid fa-graduation-cap fa-3x text-primary mb-3"></i>
+                <h3 class="h5">Non-Fiction</h3>
+                <p class="text-muted">Expand your knowledge</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="category-card shadow-sm rounded-3 p-4 text-center hover-lift">
+                <i class="fa-solid fa-child fa-3x text-primary mb-3"></i>
+                <h3 class="h5">Children's Books</h3>
+                <p class="text-muted">Magic for young minds</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Books -->
+<section class="featured-books container mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Featured Books</h2>
+        <a asp-action="Index" class="btn btn-outline-primary">View All</a>
+    </div>
+    <div class="row g-4">
+        @foreach (var book in Model.Take(8))
+
+        {
+            <div class="col-sm-6 col-md-4 col-lg-3">
+                <div class="book-card card h-100 border-0 shadow-sm hover-lift">
+                    <a class="text-decoration-none" asp-controller="Store" asp-action="Details" asp-route-id="@book.Id">
+                        <img src="@book.ImgUrl" class="card-img-top" style="height: 300px; object-fit: cover;" alt="@book.Title">
+                        <div class="card-body">
+                            <h5 class="card-title text-truncate">@book.Title</h5>
+                            <p class="card-text text-muted mb-2">By @book.Author</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                @{
+                                    var discountType = book.DiscountType;
+                                }
+                                <div class="price-tag">
+                                    @if (discountType == DiscountType.Percentage || discountType == DiscountType.Price)
+
+                                    {
+                                        <span class="text-primary fw-bold">@book.FinalPrice.ToString("c")</span>
+                                        <small class="text-decoration-line-through text-muted ms-2">@book.Price.ToString("c")</small>
+                                    }
+
+                                    else
+
+                                    {
+                                        <span class="text-primary fw-bold">@book.Price.ToString("c")</span>
+                                    }
+                                </div>
+                                <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@book.Id"
+                                   class="btn btn-primary btn-sm">
+                                    <i class="fa-solid fa-cart-plus"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+</section>
+
+<!-- Newsletter Section -->
+<section class="newsletter-section bg-light py-5 mb-5">
+    <div class="container">
+        <div class="row justify-content-center text-center">
+            <div class="col-lg-6">
+                <h2 class="mb-3">Stay Updated</h2>
+                <p class="text-muted mb-4">Subscribe to our newsletter for the latest releases and exclusive offers!</p>
+                <form class="newsletter-form">
+                    <div class="input-group">
+                        <input type="email" class="form-control" placeholder="Enter your email">
+                        <button class="btn btn-primary" type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .hero-section {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    }
+
+    .hover-lift {
+        transition: transform 0.2s ease-in-out;
+    }
+
+        .hover-lift:hover {
+            transform: translateY(-5px);
+        }
+
+    .book-card {
+        transition: all 0.3s ease;
+    }
+
+        .book-card:hover {
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+        }
+
+    .category-card {
+        background: white;
+        transition: all 0.3s ease;
+    }
+
+        .category-card:hover {
+            background: #f8f9fa;
+        }
+
+    .search-form .input-group {
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        border-radius: 0.5rem;
+        overflow: hidden;
+    }
+
+    .newsletter-form .input-group {
+        max-width: 500px;
+        margin: 0 auto;
+    }
+</style>

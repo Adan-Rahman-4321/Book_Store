@@ -1,0 +1,60 @@
+﻿@model Website.Models.Book
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+<hr />
+<div class="row">
+    <!-- Details Section -->
+    <div class="col-md-8">
+        
+        <dl class="row">
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.Title)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Title)
+            </dd>
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.Author)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Author)
+            </dd>
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.UploadedDate)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.UploadedDate)
+            </dd>
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.Price)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Price)
+            </dd>
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+        </dl>
+        <!-- Buttons Section -->
+        <div>
+            <a asp-action="Index" class="btn btn-warning">
+                <i class="fa-solid fa-arrow-left"></i> Back
+            </a> |
+            <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@Model.Id" class="btn btn-primary store-btn me-5">
+                <i class="fa-solid fa-cart-plus"></i> Add to cart
+            </a>
+        </div>
+    </div>
+
+    <!-- Image Section -->
+    <div class="col-md-4 text-center">
+        <img src="@Model.ImgUrl" class="img-fluid w-75 float-start " alt="Book cover" />
+    </div>
+</div>

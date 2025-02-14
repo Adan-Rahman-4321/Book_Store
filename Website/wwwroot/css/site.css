@@ -1,0 +1,106 @@
+
+
+.card-style{
+    color: inherit;
+    text-decoration: none;
+}
+
+.card-style :hover {
+    text-decoration : none ;
+    color : inherit;
+
+}
+
+.card-img-custom{
+    width :100%;
+    height:26vw;
+    object-fit :cover;
+}
+
+.store-card{
+    transition:all 0.2s ease;
+}
+
+.store-card:hover{
+    transform: scale(1.03);
+    box-shadow: lightgrey 2px 5px 5px 2px;
+}
+
+.store-card a:hover {
+        text-decoration: none;
+}
+
+.store-btn:hover {
+        background-color: forestgreen !important;
+        border: 1px solid forestgreen !important;
+        
+}
+.search-bar input {
+    border: solid 2px black;
+    color: green ;
+}
+
+.navbar.bg-danger {
+    background-color: #dc3545;
+}
+
+/* Link hover effect */
+.nav-link {
+    transition: color 0.3s ease;
+}
+
+    .nav-link:hover {
+        color: #ffd700;
+        text-shadow: 0 0 8px #fff, 0 0 12px rgba(255, 215, 0, 0.8);
+    }
+
+
+/*.nav-item:hover {
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 15px rgba(255, 215, 0, 0.8);
+    transition: box-shadow 0.3s ease;
+}*/
+
+
+
+
+.search-bar .form-control {
+    border: 2px solid #fff;
+}
+
+.search-bar .btn-light {
+    background-color: #fff;
+    color: #dc3545;
+    border: 2px solid #dc3545;
+}
+
+    .search-bar .btn-light:hover {
+        background-color: #ffd700;
+        color: #fff;
+        border-color: #ffd700;
+    }
+
+
+.logo span{
+    color:yellow;
+}
+
+.title {
+    text-transform: uppercase;
+}
+
+.author {
+    text-transform: uppercase;
+    color: grey;
+}
+
+.nav-list{
+    text-transform: uppercase;
+}
+
+
+
+
+
+
+
+

@@ -1,0 +1,135 @@
+﻿@model Website.Models.Book
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<!-- Loader CSS -->
+
+
+<h1>Add Book</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea asp-for="Description" class="form-control" cols="40" rows="5"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Author" class="control-label"></label>
+                <input asp-for="Author" class="form-control" />
+                <span asp-validation-for="Author" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UploadedDate" class="control-label"></label>
+                <input asp-for="UploadedDate" class="form-control" />
+                <span asp-validation-for="UploadedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" id="Price" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="DiscountType" class="control-label"></label>
+                <select asp-for="DiscountType" class="form-control">
+                    <option>None</option>
+                    <option value="Percentage">Percentage</option>
+                    <option value="Price">Price</option>
+                </select>
+                <span asp-validation-for="DiscountType" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="DiscountAmount" class="control-label"></label>
+                <input asp-for="DiscountAmount" value="@Model?.DiscountAmount" class="form-control" id="DiscountAmount" />
+                <span asp-validation-for="DiscountAmount" class="text-danger"></span>
+            </div>
+
+            <!-- Final Price Display -->
+            <div class="form-group">
+                <label class="control-label">Final Price</label>
+                <p id="FinalPriceDisplay">@Model?.FinalPrice.ToString("C")</p>
+                <input type="hidden" id="FinalPriceInput" name="FinalPrice"
+            </div>
+            
+
+            <div class="form-group">
+                <label asp-for="ImgUrl" class="control-label"></label>
+                <input asp-for="ImgUrl" class="form-control" />
+                <span asp-validation-for="ImgUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" onclick="alertFunc(event)"/>
+                <p class="spinner-border  float-end text-danger" role="status" style="display:none;">
+                        <span class="visually-hidden">Loading...</span>
+                    </p>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn btn-warning"><i class="fa-solid fa-arrow-left"></i> Back</a>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        // function alertFunc(e) {
+        //     e.preventDefault();
+        //     Swal.fire({
+        //         position: "top-end",
+        //         icon: "success",
+        //         title: "Book Added",
+        //         showConfirmButton: false,
+        //         timer: 1500
+        //     }).then(()=> {
+        //         e.target.closest('form').submit();
+        //     });
+               
+        // }
+    </script>
+    <script>
+        $(document).ready(function () {
+            function calculateFinalPrice() {
+                var price = parseFloat($('#Price').val()) || 0;
+                var discountType = $('#DiscountType').val();
+                var discountAmount = parseFloat($('#DiscountAmount').val()) || 0;
+                var finalPrice = price;
+
+                if (discountType === 'Percentage') {
+                    finalPrice = price - (price * (discountAmount / 100));
+                } else if (discountType === 'Price') {
+                    finalPrice = price - discountAmount;
+                }
+
+                // Update the FinalPrice display
+                $('#FinalPriceDisplay').text(finalPrice.toFixed(2) + " USD");
+
+                        // Update the hidden input field
+                $('#FinalPriceInput').val(finalPrice.toFixed(2));
+            }
+
+            // Bind the calculateFinalPrice function to the inputs
+            $('#Price, #DiscountType, #DiscountAmount').on('input change', calculateFinalPrice);
+
+                // Initial calculation on page load
+                    calculateFinalPrice();
+                });
+
+    </script>
+      
+}
